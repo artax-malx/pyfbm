@@ -60,8 +60,8 @@ def eigenvalues(H,n,T):
 
     return m,eigenvals
 
-def fBm(H,n,T):
-    """ Sample an fBm by cumulatively summing an fGn."""
+def fGn(H,n,T):
+    """ Generates an fGn via circulant embedding."""
     m,eigenvals = eigenvalues(H,n,T)
     ar = np.random.standard_normal(m//2 + 1)
     ai = np.random.standard_normal(m//2 + 1)
@@ -86,8 +86,13 @@ def fBm(H,n,T):
     fGn = np.fft.fft(W)
     fGn = (1/np.sqrt(2*m))*fGn
     fGn = fGn[0:n].real
+
+    return fGn
     
-    fBm = np.cumsum(fGn)
+def fBm(H,n,T):
+    """ Sample an fBm by cumulatively summing an fGn."""
+    fGn_series = fGn(H,n,T)
+    fBm = np.cumsum(fGn_series)
     fBm = np.insert(fBm,0,0)
     
     return fBm
