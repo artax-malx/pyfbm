@@ -60,9 +60,8 @@ def eigenvalues(H,n,T):
 
     return m,eigenvals
 
-def fGn(H,n,T):
+def fGn(eivals,m,n):
     """ Generates an fGn via circulant embedding."""
-    m,eigenvals = eigenvalues(H,n,T)
     ar = np.random.standard_normal(m//2 + 1)
     ai = np.random.standard_normal(m//2 + 1)
     
@@ -82,25 +81,32 @@ def fGn(H,n,T):
     W = ar + 1j*ai
     
     # Reconstruction of fGn.
-    W = np.sqrt(eigenvals)*W
+    W = np.sqrt(eivals)*W
     fGn = np.fft.fft(W)
     fGn = (1/np.sqrt(2*m))*fGn
     fGn = fGn[0:n].real
 
     return fGn
     
-def fBm(H,n,T):
+def fBm(eivals,m,n):
     """ Sample an fBm by cumulatively summing an fGn."""
-    fGn_series = fGn(H,n,T)
+    fGn_series = fGn(eivals, m, n)
     fBm = np.cumsum(fGn_series)
     fBm = np.insert(fBm,0,0)
     
     return fBm
 
+def get_fBm_series(H,n,T):
+    m,eivals = eigenvalues(H,n,T)
+    fBm_series = fBm(eivals,m,n)
+
+    return fBm_series
+
+
 if __name__ == "__main__":
 
     # Set the parameters.
-    n = 2**9
+    n = 2**17
     T = 1
     ticks = np.linspace(0,T,n+1)
     
@@ -109,8 +115,8 @@ if __name__ == "__main__":
     except:
         raise ValueError("Please provide the Hurst exponent: a floating number between zero and one.")
     
-    fbm_series = fBm(H,n,T)
+    fBm_series = get_fBm_series(H,n,T)
     
     plt.figure(figsize=(15,8))
-    plt.plot(ticks,fbm_series)
+    plt.plot(ticks,fBm_series)
     plt.show()

@@ -18,7 +18,8 @@ def test_mean_fbm(eps=1e-5):
     H = 0.5
     T = 1
 
-    fbm_series = pyfbm.fGn(H, n, T)
+    m, eivals = pyfbm.eigenvalues(H,n,T)
+    fbm_series = pyfbm.fGn(eivals, m, n)
     mean = np.mean(fbm_series)
 
     assert np.abs(mean) <= eps
