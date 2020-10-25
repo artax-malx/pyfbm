@@ -60,7 +60,7 @@ def eigenvalues(H,n,T):
 
     return m,eigenvals
 
-def fGn(eivals,m,n):
+def fgn(eivals,m,n):
     """ Generates an fGn via circulant embedding."""
     ar = np.random.standard_normal(m//2 + 1)
     ai = np.random.standard_normal(m//2 + 1)
@@ -82,25 +82,28 @@ def fGn(eivals,m,n):
     
     # Reconstruction of fGn.
     W = np.sqrt(eivals)*W
-    fGn = np.fft.fft(W)
-    fGn = (1/np.sqrt(2*m))*fGn
-    fGn = fGn[0:n].real
+    fgn_path = np.fft.fft(W)
+    fgn_path = (1/np.sqrt(2*m))*fgn_path
+    fgn_path = fgn_path[0:n].real
 
-    return fGn
+    return fgn_path
     
-def fBm(eivals,m,n):
-    """ Sample an fBm by cumulatively summing an fGn."""
-    fGn_series = fGn(eivals, m, n)
-    fBm = np.cumsum(fGn_series)
-    fBm = np.insert(fBm,0,0)
+def fbm(eivals,m,n):
+    """ Samples an fBm by generating an fGn and cumulatively summing it."""
+    fgn_path = fgn(eivals, m, n)
+    fbm_path = np.cumsum(fgn_path)
+    fbm_path = np.insert(fbm_path,0,0)
     
-    return fBm
+    return fbm_path
 
-def get_fBm_series(H,n,T):
+def get_fbm(H,n,T):
+    """ Function to generate fBm sample path given a Hurst index, number of
+    sample points and time interval.
+    """ 
     m,eivals = eigenvalues(H,n,T)
-    fBm_series = fBm(eivals,m,n)
+    fbm_path = fbm(eivals,m,n)
 
-    return fBm_series
+    return fbm_path
 
 
 if __name__ == "__main__":
@@ -115,8 +118,8 @@ if __name__ == "__main__":
     except:
         raise ValueError("Please provide the Hurst exponent: a floating number between zero and one.")
     
-    fBm_series = get_fBm_series(H,n,T)
+    fbm_path =  get_fbm(H,n,T)
     
     plt.figure(figsize=(15,8))
-    plt.plot(ticks,fBm_series)
+    plt.plot(ticks,fbm_path)
     plt.show()

@@ -12,14 +12,14 @@ def test_covariance_classic_brownian():
 
     assert cov == 0
     
-def test_mean_fbm(eps=1e-5):
+def test_mean_fgn(eps=1e-5):
     #TODO: test different values of H.
     n = 2**18
     H = 0.5
     T = 1
 
     m, eivals = pyfbm.eigenvalues(H,n,T)
-    fbm_series = pyfbm.fGn(eivals, m, n)
-    mean = np.mean(fbm_series)
+    sample_path = pyfbm.fgn(eivals, m, n)
+    mean = np.mean(sample_path)
 
     assert np.abs(mean) <= eps
