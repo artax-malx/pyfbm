@@ -36,8 +36,8 @@ def first_line_circulant(H,n,m,T):
     
     return vals
 
-def find_m(n):
-    """ Finds relevant m as a power of 2 for given n. """
+def find_size_circulant(n):
+    """ Finds relevant size of circulant matrix as a power of 2 for given n. """
     m = 2
     while True:
         m = 2*m
@@ -45,9 +45,9 @@ def find_m(n):
             break
     return m
 
-def eigenvalues(H,n,T):
+def eigenvalues_circulant(H,n,T):
     """ Checks whether the eigenvalues of circulant matrix are all positive."""
-    m = find_m(n)
+    m = find_size_circulant(n)
     
     while True:
         m = 2*m
@@ -58,7 +58,7 @@ def eigenvalues(H,n,T):
         if np.all(eigenvals > 0):
             break
 
-    return m,eigenvals
+    return m, eigenvals
 
 def fgn(eivals,m,n):
     """ Generates an fGn via circulant embedding."""
@@ -100,7 +100,7 @@ def get_fbm(H,n,T):
     """ Function to generate fBm sample path given a Hurst index, number of
     sample points and time interval.
     """ 
-    m,eivals = eigenvalues(H,n,T)
+    m,eivals = eigenvalues_circulant(H,n,T)
     fbm_path = fbm(eivals,m,n)
 
     return fbm_path

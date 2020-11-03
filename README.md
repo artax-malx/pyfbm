@@ -1,7 +1,9 @@
 PyFBM
 =====
 
-Code for simulation experiment performed in paper [[1]](#1)
+Code for simulation experiment performed in paper [[1]](#1).
+
+Run `make simulation` to run the experiment.
 
 ## References
 <a id="1">[1]</a> 

@@ -18,7 +18,7 @@ def test_mean_fgn(eps=1e-4):
     H = 0.5
     T = 1
 
-    m, eivals = pyfbm.eigenvalues(H,n,T)
+    m, eivals = pyfbm.eigenvalues_circulant(H,n,T)
     sample_path = pyfbm.fgn(eivals, m, n)
     mean = np.mean(sample_path)
 
