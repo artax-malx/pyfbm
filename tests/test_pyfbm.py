@@ -12,7 +12,7 @@ def test_covariance_classic_brownian():
 
     assert cov == 0
     
-def test_mean_fgn(eps=1e-4):
+def test_mean_fgn():
     #TODO: test different values of H.
     n = 2**17
     H = 0.5
@@ -21,10 +21,11 @@ def test_mean_fgn(eps=1e-4):
     m, eivals = pyfbm.eigenvalues_circulant(H,n,T)
     sample_path = pyfbm.fgn(eivals, m, n)
     mean = np.mean(sample_path)
-
+    
+    eps=1e-4
     assert np.abs(mean) <= eps
 
-def test_cov_fbm(eps=1e-2):
+def test_cov_fbm():
     
     n = 2**10
     H = 0.3
@@ -48,7 +49,8 @@ def test_cov_fbm(eps=1e-2):
         arr[1,i] = y
 
     sample_cov = np.cov(arr)[0,1]
-
+    
+    eps=1e-2
     assert np.abs(sample_cov - cov) <= eps 
 
 
