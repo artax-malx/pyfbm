@@ -4,9 +4,9 @@ from pyfbm import pyfbm
 import pandas as pd
 import numpy as np
 
-MC_RUNS = int(5e+6)
+MC_RUNS = int(1e+3)
 
-def simulation_max_fbm(sample_points):
+def main(sample_points):
 
     dt = 1/float(sample_points)
     T = 1
@@ -47,6 +47,6 @@ if __name__ == "__main__":
     # Number of sample points has to be a power of 2.
     sample_points = 2**9
     
-    simulation_max_fbm(sample_points)
+    main(sample_points)
 
 

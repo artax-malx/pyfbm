@@ -4,6 +4,7 @@ test:
 
 simulation:
 	python3 simulation.py
+
 plot:
 	python3 pyfbm/pyfbm.py $(HURST)
 
@@ -13,3 +14,6 @@ push:
 	@test "x$(MSG)" != 'x'
 	git commit -a -m "$(MSG)"
 	git push
+
+profile:
+	python3 -m cProfile -s cumtime simulation.py | grep pyfbm.py
