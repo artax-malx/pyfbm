@@ -3,7 +3,10 @@ PyFBM
 
 Code for MC simulation performed in paper [[1]](#1).
 
-Run `make simulation` to run the simulation.
+Run the simulation for a discretized range of H by running the command 
+```console
+make simulation
+```
 
 ## References
 <a id="1">[1]</a> 

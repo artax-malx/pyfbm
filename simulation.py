@@ -1,5 +1,3 @@
-# simulation.py - MC simulation of maximum of fBm for discretized range of H.
-
 from pyfbm import pyfbm
 import pandas as pd
 import numpy as np
